@@ -3,32 +3,37 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
+// Load environment variables
 dotenv.config();
 
+// Create express app
 const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // Connect to MongoDB
 connectDB();
 
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Online Voting System API');
-});
+// Middleware
+app.use(cors());
+app.use(express.json()); // for parsing application/json
 
-// // Import routes
-// const authRoutes = require('./routes/authRoutes');
+// Routes
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/elections', require('./routes/electionRoutes'));
 // const electionRoutes = require('./routes/electionRoutes');
 // const voteRoutes = require('./routes/voteRoutes');
 
-// // Use routes
-// app.use('/api/auth', authRoutes);
+// Use routes
+app.use('/api/auth', authRoutes);
 // app.use('/api/elections', electionRoutes);
 // app.use('/api/votes', voteRoutes);
 
+// Default route (optional)
+app.get('/', (req, res) => {
+  res.send('Welcome to the Online Voting System API');
+});
+
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
