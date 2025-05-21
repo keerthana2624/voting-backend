@@ -19,13 +19,12 @@ app.use(express.json()); // for parsing application/json
 // Routes
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/elections', require('./routes/electionRoutes'));
-// const electionRoutes = require('./routes/electionRoutes');
-// const voteRoutes = require('./routes/voteRoutes');
+app.use('/api/votes', require('./routes/voteRoutes'));
+
 
 // Use routes
 app.use('/api/auth', authRoutes);
-// app.use('/api/elections', electionRoutes);
-// app.use('/api/votes', voteRoutes);
+
 
 // Default route (optional)
 app.get('/', (req, res) => {
